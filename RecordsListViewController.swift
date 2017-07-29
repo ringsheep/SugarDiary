@@ -6,12 +6,14 @@ import UIKit
 
 class RecordsListViewController: UIViewController {
     
+    fileprivate let estimatedRowHeight: CGFloat = 100.0
     fileprivate var viewModel = RecordsListViewModel()
     
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = self.estimatedRowHeight
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -66,7 +68,8 @@ extension RecordsListViewController: UITableViewDataSource {
         
         cell.set(date: viewModel.recordDateString(at: indexPath.row),
                  sugarLevel: viewModel.recordSugarLevelString(at: indexPath.row),
-                 medicationAmount: viewModel.recordMedicationAmountString(at: indexPath.row))
+                 medicationAmount: viewModel.recordMedicationAmountString(at: indexPath.row),
+                 breadUnits: viewModel.recordBreadUnitsString(at: indexPath.row))
         
         return cell
     }

@@ -8,13 +8,16 @@ struct DiaryRecord {
     var date: Date
     var sugarLevel: Double
     var medicationAmount: Double
+    var breadUnits: Double
     
     init(date: Date = Date(),
          sugarLevel: Double = 0.0,
-         medicationAmount: Double = 0.0) {
+         medicationAmount: Double = 0.0,
+         breadUnits: Double = 0.0) {
         self.date = date
         self.sugarLevel = sugarLevel
         self.medicationAmount = medicationAmount
+        self.breadUnits = breadUnits
     }
 }
 

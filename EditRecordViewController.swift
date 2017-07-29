@@ -36,10 +36,20 @@ class EditRecordViewController: UIViewController {
         return textField
     }()
     
+    fileprivate lazy var breadUnitsTextField: UITextField = {
+        let textField = UITextField()
+        textField.keyboardType = .decimalPad
+        textField.delegate = self
+        textField.placeholder = "Bread units 🍞"
+        
+        return textField
+    }()
+    
     fileprivate lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [self.datePicker,
                                                        self.sugarLevelTextField,
-                                                       self.medicationAmountTextField])
+                                                       self.medicationAmountTextField,
+                                                       self.breadUnitsTextField])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = self.subviewsVerticalSpacing
@@ -132,6 +142,9 @@ extension EditRecordViewController: UITextFieldDelegate {
         }
         else if textField === medicationAmountTextField {
             viewModel.setMedicationAmount(amountString: textAfterUpdate)
+        }
+        else if textField === breadUnitsTextField {
+            viewModel.setBreadUnits(unitsString: textAfterUpdate)
         }
         
         return true

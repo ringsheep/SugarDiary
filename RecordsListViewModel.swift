@@ -38,6 +38,10 @@ class RecordsListViewModel {
         return "\(record(at: index).medicationAmount)"
     }
     
+    func recordBreadUnitsString(at index: Int) -> String {
+        return "\(record(at: index).breadUnits)"
+    }
+    
     fileprivate func record(at index: Int) -> DiaryRecord {
         guard index < records.count else {
             return DiaryRecord()
