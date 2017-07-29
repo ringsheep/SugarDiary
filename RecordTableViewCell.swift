@@ -9,6 +9,7 @@ class RecordTableViewCell: UITableViewCell {
     fileprivate let defaultSpacing: CGFloat = 12.0
     fileprivate let dateLabelWidth: CGFloat = 120.0
     fileprivate let rateLabelWidth: CGFloat = 80.0
+    fileprivate let badgeLabelWidth: CGFloat = 60.0
     fileprivate let labelHeight: CGFloat = 24.0
     
     fileprivate lazy var dateLabel: UILabel = {
@@ -20,6 +21,14 @@ class RecordTableViewCell: UITableViewCell {
     fileprivate lazy var sugarLevelLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    fileprivate lazy var sugarRateBadgeLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
         return label
     }()
     
@@ -48,44 +57,63 @@ class RecordTableViewCell: UITableViewCell {
     func commonInit() {
         contentView.addSubview(dateLabel)
         contentView.addSubview(sugarLevelLabel)
+        contentView.addSubview(sugarRateBadgeLabel)
         contentView.addSubview(medicationAmountLabel)
         contentView.addSubview(breadUnitsLabel)
         setupConstraints()
     }
     
     func setupConstraints() {
-        dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                           constant: defaultSpacing).isActive = true
-        dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                       constant: defaultSpacing).isActive = true
-        dateLabel.widthAnchor.constraint(equalToConstant: dateLabelWidth).isActive = true
-        dateLabel.heightAnchor.constraint(equalToConstant: labelHeight).isActive = true
+        dateLabel.leading(to: contentView.leadingAnchor, constant: defaultSpacing)
+        dateLabel.top(to: contentView.topAnchor, constant: defaultSpacing)
+        dateLabel.width(to: dateLabelWidth)
+        dateLabel.height(to: labelHeight)
         
-        sugarLevelLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor,
-                                                 constant: defaultSpacing*2).isActive = true
-        sugarLevelLabel.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor).isActive = true
-        sugarLevelLabel.widthAnchor.constraint(equalToConstant: rateLabelWidth).isActive = true
-        sugarLevelLabel.heightAnchor.constraint(equalToConstant: labelHeight).isActive = true
+        sugarLevelLabel.leading(to: dateLabel.trailingAnchor, constant: defaultSpacing * 2)
+        sugarLevelLabel.centerY(to: dateLabel.centerYAnchor)
+        sugarLevelLabel.width(to: rateLabelWidth)
+        sugarLevelLabel.height(to: labelHeight)
         
-        breadUnitsLabel.leadingAnchor.constraint(equalTo: sugarLevelLabel.leadingAnchor).isActive = true
-        breadUnitsLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor,
-                                                   constant: defaultSpacing).isActive = true
-        breadUnitsLabel.widthAnchor.constraint(equalToConstant: rateLabelWidth).isActive = true
-        breadUnitsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                          constant: -defaultSpacing).isActive = true
-        breadUnitsLabel.heightAnchor.constraint(equalToConstant: labelHeight).isActive = true
+        sugarRateBadgeLabel.leading(to:  sugarLevelLabel.trailingAnchor, constant: defaultSpacing)
+        sugarRateBadgeLabel.centerY(to: sugarLevelLabel.centerYAnchor)
+        sugarRateBadgeLabel.height(to: labelHeight)
+        sugarRateBadgeLabel.width(to: badgeLabelWidth)
         
-        medicationAmountLabel.leadingAnchor.constraint(equalTo: breadUnitsLabel.trailingAnchor,
-                                                 constant: defaultSpacing).isActive = true
-        medicationAmountLabel.centerYAnchor.constraint(equalTo: breadUnitsLabel.centerYAnchor).isActive = true
-        medicationAmountLabel.widthAnchor.constraint(equalToConstant: rateLabelWidth).isActive = true
-        medicationAmountLabel.heightAnchor.constraint(equalToConstant: labelHeight).isActive = true
+        breadUnitsLabel.leading(to: sugarLevelLabel.leadingAnchor)
+        breadUnitsLabel.top(to: dateLabel.bottomAnchor, constant: defaultSpacing)
+        breadUnitsLabel.width(to: rateLabelWidth)
+        breadUnitsLabel.bottom(to: contentView.bottomAnchor, constant: -defaultSpacing)
+        breadUnitsLabel.height(to: labelHeight)
+        
+        medicationAmountLabel.leading(to:  breadUnitsLabel.trailingAnchor, constant: defaultSpacing)
+        medicationAmountLabel.centerY(to: breadUnitsLabel.centerYAnchor)
+        medicationAmountLabel.width(to: rateLabelWidth)
+        medicationAmountLabel.height(to: labelHeight)
     }
     
-    func set(date: String, sugarLevel: String, medicationAmount: String, breadUnits: String) {
+    func set(date: String,
+             sugarLevel: String,
+             medicationAmount: String,
+             breadUnits: String,
+             sugarRate: SugarRate) {
         dateLabel.text = date
         sugarLevelLabel.text = "❤️: \(sugarLevel)"
         medicationAmountLabel.text = "💉: \(medicationAmount)"
         breadUnitsLabel.text = "🍞: \(breadUnits)"
+        
+        switch sugarRate {
+        case .low:
+            sugarRateBadgeLabel.text = "Low"
+            sugarRateBadgeLabel.backgroundColor = .blue
+        case .good:
+            sugarRateBadgeLabel.text = "Good"
+            sugarRateBadgeLabel.backgroundColor = .green
+        case .high:
+            sugarRateBadgeLabel.text = "High"
+            sugarRateBadgeLabel.backgroundColor = .orange
+        case .enormous:
+            sugarRateBadgeLabel.text = "Awful"
+            sugarRateBadgeLabel.backgroundColor = .red
+        }
     }
 }

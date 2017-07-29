@@ -5,6 +5,10 @@
 import Foundation
 import UIKit
 
+enum SugarRate {
+    case low, good, high, enormous
+}
+
 class RecordsListViewModel {
     
     fileprivate var records: [DiaryRecord] = []
@@ -40,6 +44,19 @@ class RecordsListViewModel {
     
     func recordBreadUnitsString(at index: Int) -> String {
         return "\(record(at: index).breadUnits)"
+    }
+    
+    func recordSugarRate(at index: Int) -> SugarRate {
+        switch record(at: index).sugarLevel {
+        case 0..<5:
+            return .low
+        case 5..<8:
+            return .good
+        case 8..<12:
+            return .high
+        default:
+            return .enormous
+        }
     }
     
     fileprivate func record(at index: Int) -> DiaryRecord {
