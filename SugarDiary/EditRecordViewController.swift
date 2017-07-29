@@ -9,6 +9,7 @@ class EditRecordViewController: UIViewController {
     
     fileprivate let outerMargin: CGFloat = 12.0
     fileprivate let subviewsVerticalSpacing: CGFloat = 6.0
+    fileprivate let datePickerHeight: CGFloat = 200.0
     fileprivate var viewModel: EditRecordViewModel
     
     fileprivate lazy var datePicker: UIDatePicker = {
@@ -16,6 +17,7 @@ class EditRecordViewController: UIViewController {
         datePicker.datePickerMode = .dateAndTime
         datePicker.maximumDate = Date()
         datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
+        datePicker.height(to: self.datePickerHeight)
         return datePicker
     }()
     
