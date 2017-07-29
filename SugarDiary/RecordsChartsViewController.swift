@@ -7,59 +7,79 @@ import Charts
 
 class RecordsChartsViewController: UIViewController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-    }
+    fileprivate let outerMargin: CGFloat = 12.0
     
-    func setupPieChartView(_ chartView: PieChartView) {
+    fileprivate lazy var pieChartView: PieChartView = {
+        let chartView = PieChartView()
+        chartView.translatesAutoresizingMaskIntoConstraints = false
         chartView.usePercentValuesEnabled = true
         chartView.drawSlicesUnderHoleEnabled = false
-        chartView.holeRadiusPercent = 0.58
+        chartView.holeRadiusPercent = 0.4
         chartView.transparentCircleRadiusPercent = 0.61
         chartView.chartDescription?.enabled = false
         chartView.setExtraOffsets(left: 5.0, top: 10.0, right: 5.0, bottom: 5.0)
         chartView.drawCenterTextEnabled = true
-        
-        let paragraphStyle: NSMutableParagraphStyle = NSMutableParagraphStyle.default as? NSMutableParagraphStyle ?? NSMutableParagraphStyle()
-        paragraphStyle.lineBreakMode = .byTruncatingTail
-        paragraphStyle.alignment = .center
-        
-        let centerText = NSMutableAttributedString(string: "Charts\nby Daniel Cohen Gindi")
-        
-        centerText.setAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 13.0),
-                                  NSParagraphStyleAttributeName: paragraphStyle],
-                                 range: NSRange(location: 0,
-                                                length: centerText.length))
-        
-        centerText.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 11.0),
-                                  NSForegroundColorAttributeName: UIColor.gray],
-                                 range: NSRange(location: 10,
-                                                length: centerText.length - 10))
-        
-        centerText.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 11.0),
-                                  NSForegroundColorAttributeName: UIColor(red: 51 / 255.0,
-                                                                          green: 181 / 255.0,
-                                                                          blue: 229 / 255.0,
-                                                                          alpha: 1.0)],
-                                 range: NSRange(location: centerText.length - 19,
-                                                length: 19))
-        
-        chartView.centerAttributedText = centerText
+        chartView.centerText = "Sugar levels\nby 30 days"
         chartView.drawHoleEnabled = true
         chartView.rotationAngle = 0.0
         chartView.rotationEnabled = true
         chartView.highlightPerTapEnabled = true
         
-        let legend: Legend? = chartView.legend
-        legend?.horizontalAlignment = .right
-        legend?.verticalAlignment = .top
-        legend?.orientation = .vertical
-        legend?.drawInside = false
-        legend?.xEntrySpace = 7.0
-        legend?.yEntrySpace = 0.0
-        legend?.yOffset = 0.0
+        chartView.legend.horizontalAlignment = .right
+        chartView.legend.verticalAlignment = .top
+        chartView.legend.orientation = .vertical
+        chartView.legend.drawInside = false
+        chartView.legend.xEntrySpace = 7.0
+        chartView.legend.yEntrySpace = 0.0
+        chartView.legend.yOffset = 0.0
+        return chartView
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        view.addSubview(pieChartView)
+        
+        setupConstraints()
+        updateChartData()
+    }
+    
+    func setupConstraints() {
+        pieChartView.leading(to: view.leadingAnchor)
+        pieChartView.top(to: topLayoutGuide.bottomAnchor)
+        pieChartView.trailing(to: view.trailingAnchor)
+        pieChartView.bottom(to: bottomLayoutGuide.topAnchor)
+    }
+    
+    func updateChartData() {
+        var entries: [PieChartDataEntry] = []
+        
+        for i in 0..<100 {
+            entries.append(PieChartDataEntry(value: (Double(arc4random_uniform(UInt32(3)))),
+                                             label: nil))
+        }
+        
+        let dataSet = PieChartDataSet(values: entries, label: "Election Results")
+        dataSet.sliceSpace = 2.0
+        
+        dataSet.colors = [.red, .green, .blue, .orange]
+        dataSet.valueLinePart1OffsetPercentage = 0.8
+        dataSet.valueLinePart1Length = 0.2
+        dataSet.valueLinePart2Length = 0.4
+        
+        dataSet.yValuePosition = .outsideSlice
+        let data = PieChartData(dataSet: dataSet)
+        let pFormatter = NumberFormatter()
+        pFormatter.numberStyle = .percent
+        pFormatter.maximumFractionDigits = 1
+        pFormatter.multiplier = 1.0
+        pFormatter.percentSymbol = ""
+        
+        data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
+        data.setValueFont(UIFont.systemFont(ofSize: 11.0))
+        data.setValueTextColor(.black)
+        pieChartView.data = data
+        pieChartView.highlightValues(nil)
     }
     
 }
