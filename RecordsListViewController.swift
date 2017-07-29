@@ -11,6 +11,7 @@ class RecordsListViewController: UIViewController {
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.rowHeight = UITableViewAutomaticDimension
         
         tableView.delegate = self
         tableView.dataSource = self

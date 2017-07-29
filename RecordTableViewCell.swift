@@ -51,13 +51,14 @@ class RecordTableViewCell: UITableViewCell {
         dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor,
                                        constant: defaultSpacing).isActive = true
         dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                          constant: defaultSpacing).isActive = true
+                                          constant: -defaultSpacing).isActive = true
         dateLabel.widthAnchor.constraint(equalToConstant: dateLabelWidth).isActive = true
         
         sugarLevelLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor,
                                                  constant: defaultSpacing*2).isActive = true
         sugarLevelLabel.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor).isActive = true
         sugarLevelLabel.widthAnchor.constraint(equalToConstant: rateLabelWidth).isActive = true
+
         
         medicationAmountLabel.leadingAnchor.constraint(equalTo: sugarLevelLabel.trailingAnchor,
                                                        constant: defaultSpacing).isActive = true
