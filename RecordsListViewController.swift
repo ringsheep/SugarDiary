@@ -37,6 +37,7 @@ class RecordsListViewController: UIViewController {
     }
     
     func setupNavbar() {
+        setEditBarButtonItem()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
                                                             action: #selector(createRecord))
@@ -48,6 +49,7 @@ class RecordsListViewController: UIViewController {
     }
     
     func createRecord() {
+        endEditing()
         viewModel.createRecord(on: self)
     }
 }
@@ -75,8 +77,38 @@ extension RecordsListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         viewModel.editRecord(at: indexPath.row, on: self)
     }
+    
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCellEditingStyle,
+                   forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            viewModel.deleteRecord(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
 }
 
 extension RecordsListViewController: RecordsListDelegate {
     
+}
+
+// MARK: - Editing
+extension RecordsListViewController {
+    func setEditBarButtonItem() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
+                                                           target: self,
+                                                           action: #selector(beginEditing))
+    }
+    
+    func beginEditing() {
+        tableView.setEditing(true, animated: true)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
+                                                           target: self,
+                                                           action: #selector(endEditing))
+    }
+    
+    func endEditing() {
+        tableView.setEditing(false, animated: true)
+        setEditBarButtonItem()
+    }
 }

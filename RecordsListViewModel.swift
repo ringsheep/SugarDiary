@@ -45,7 +45,12 @@ class RecordsListViewModel {
         return records[index]
     }
     
-    // MARK: - Routing
+    // MARK: - Actions
+    
+    func deleteRecord(at index: Int) {
+        service.removeRecord(record(at: index))
+        getRecords()
+    }
     
     func editRecord(at index: Int, on viewController: RecordsListViewController) {
         openRecord(with: record(at: index), on: viewController)
