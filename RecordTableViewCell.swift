@@ -107,7 +107,7 @@ class RecordTableViewCell: UITableViewCell {
             sugarRateBadgeLabel.backgroundColor = .blue
         case .good:
             sugarRateBadgeLabel.text = "Good"
-            sugarRateBadgeLabel.backgroundColor = .green
+            sugarRateBadgeLabel.backgroundColor = .darkGreen
         case .high:
             sugarRateBadgeLabel.text = "High"
             sugarRateBadgeLabel.backgroundColor = .orange
@@ -115,5 +115,11 @@ class RecordTableViewCell: UITableViewCell {
             sugarRateBadgeLabel.text = "Awful"
             sugarRateBadgeLabel.backgroundColor = .red
         }
+    }
+}
+
+fileprivate extension UIColor {
+    static var darkGreen: UIColor {
+        return UIColor(colorLiteralRed: 0.0, green: 0.75, blue: 0.0, alpha: 1.0)
     }
 }

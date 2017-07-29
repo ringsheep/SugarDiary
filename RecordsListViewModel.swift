@@ -16,9 +16,7 @@ class RecordsListViewModel {
     
     fileprivate lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        
-        formatter.dateFormat = "dd/MM HH:mm"
-        
+        formatter.dateFormat = "dd.MM.yy HH:mm"
         return formatter
     }()
     
@@ -50,9 +48,9 @@ class RecordsListViewModel {
         switch record(at: index).sugarLevel {
         case 0..<5:
             return .low
-        case 5..<8:
+        case 5..<7.5:
             return .good
-        case 8..<12:
+        case 7.5..<10:
             return .high
         default:
             return .enormous
