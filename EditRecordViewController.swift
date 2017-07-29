@@ -7,12 +7,14 @@ import UIKit
 
 class EditRecordViewController: UIViewController {
     
-    fileprivate let defaultSpacing: CGFloat = 12.0
+    fileprivate let outerMargin: CGFloat = 12.0
+    fileprivate let subviewsVerticalSpacing: CGFloat = 6.0
     fileprivate var viewModel: EditRecordViewModel
     
     fileprivate lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .dateAndTime
+        datePicker.maximumDate = Date()
         datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
         return datePicker
     }()
@@ -40,7 +42,7 @@ class EditRecordViewController: UIViewController {
                                                        self.medicationAmountTextField])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = self.defaultSpacing
+        stackView.spacing = self.subviewsVerticalSpacing
         
         return stackView
     }()
@@ -62,6 +64,7 @@ class EditRecordViewController: UIViewController {
         setupData()
         setupNavbar()
         setupStackView()
+        sugarLevelTextField.becomeFirstResponder()
     }
     
     // MARK: - Views Setup
@@ -83,8 +86,8 @@ class EditRecordViewController: UIViewController {
     
     func setupStackView() {
         view.addSubview(stackView)
-        stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: defaultSpacing).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -defaultSpacing).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: outerMargin).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -outerMargin).isActive = true
         stackView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
     }
     

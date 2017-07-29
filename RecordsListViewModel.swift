@@ -19,7 +19,7 @@ class RecordsListViewModel {
     }()
     
     func getRecords() {
-        records = service.getRecords()
+        records = service.getRecords().sorted(by: { $0.date > $1.date })
     }
     
     func numberOfRecords() -> Int {

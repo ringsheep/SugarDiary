@@ -7,7 +7,7 @@ import UIKit
 class RecordTableViewCell: UITableViewCell {
     
     fileprivate let defaultSpacing: CGFloat = 12.0
-    fileprivate let dateLabelWidth: CGFloat = 94.0
+    fileprivate let dateLabelWidth: CGFloat = 100.0
     fileprivate let rateLabelWidth: CGFloat = 80.0
     
     fileprivate lazy var dateLabel: UILabel = {
