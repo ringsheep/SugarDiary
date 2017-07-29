@@ -92,7 +92,8 @@ class EditRecordViewController: UIViewController {
     
     func save() {
         viewModel.saveChanges()
-        pop()
+        view.endEditing(true)
+        navigationController?.dismiss(animated: true, completion: viewModel.updateList)
     }
     
     func pop() {

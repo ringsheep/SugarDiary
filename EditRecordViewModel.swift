@@ -4,10 +4,15 @@
 
 import Foundation
 
+protocol RecordsListDelegate: class {
+    func reloadData()
+}
+
 class EditRecordViewModel {
     
     fileprivate var record: DiaryRecord
     fileprivate let service = DiaryRecordsService()
+    weak var delegate: RecordsListDelegate?
     
     init(record: DiaryRecord = DiaryRecord()) {
         self.record = record
@@ -49,6 +54,10 @@ class EditRecordViewModel {
     
     func saveChanges() {
         service.addOrUpdateRecord(record)
+    }
+    
+    func updateList() {
+        delegate?.reloadData()
     }
     
 }
