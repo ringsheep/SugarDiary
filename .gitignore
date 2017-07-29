@@ -1,7 +1,6 @@
 # Xcode
 #
 build/
-Carthage/Checkouts/*/Carthage/Build
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -28,4 +27,3 @@ fastlane/test_output
 fastlane/continuous_reports
 !Carthage/Checkouts
 reports/
-AlfaMobile-ABM Prod Adhoc.log
