@@ -12,6 +12,12 @@ class RecordTableViewCell: UITableViewCell {
     fileprivate let badgeLabelWidth: CGFloat = 60.0
     fileprivate let labelHeight: CGFloat = 24.0
     
+    fileprivate var sugarRate: SugarRate = .low {
+        didSet {
+            setupSugarRateLabel()
+        }
+    }
+    
     fileprivate lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -100,7 +106,10 @@ class RecordTableViewCell: UITableViewCell {
         sugarLevelLabel.text = "❤️: \(sugarLevel)"
         medicationAmountLabel.text = "💉: \(medicationAmount)"
         breadUnitsLabel.text = "🍞: \(breadUnits)"
-        
+        self.sugarRate = sugarRate
+    }
+    
+    func setupSugarRateLabel() {
         switch sugarRate {
         case .low:
             sugarRateBadgeLabel.text = "Low"
@@ -115,6 +124,16 @@ class RecordTableViewCell: UITableViewCell {
             sugarRateBadgeLabel.text = "Awful"
             sugarRateBadgeLabel.backgroundColor = .red
         }
+    }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        setupSugarRateLabel()
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        setupSugarRateLabel()
     }
 }
 
