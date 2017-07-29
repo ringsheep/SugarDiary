@@ -91,9 +91,21 @@ class EditRecordViewController: UIViewController {
     // MARK: Form actions
     
     func save() {
-        viewModel.saveChanges()
-        view.endEditing(true)
-        navigationController?.dismiss(animated: true, completion: viewModel.updateList)
+        let (isValid, errorText) = viewModel.validateForm()
+        if isValid {
+            viewModel.saveChanges()
+            view.endEditing(true)
+            navigationController?.dismiss(animated: true, completion: viewModel.updateList)
+        } else {
+            presentErrorAlert(with: errorText)
+        }
+    }
+    
+    func presentErrorAlert(with text: String) {
+        let alert = UIAlertController(title: "Error", message: text, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(alertAction)
+        present(alert, animated: true, completion: nil)
     }
     
     func pop() {

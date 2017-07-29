@@ -52,6 +52,12 @@ class EditRecordViewModel {
         record.medicationAmount = amountDouble
     }
     
+    func validateForm() -> (Bool, String) {
+        let isValid = record.sugarLevel > 0.0
+        let errorText = isValid ? "" : "Sugar level cannot be zero"
+        return (isValid, errorText)
+    }
+    
     func saveChanges() {
         service.addOrUpdateRecord(record)
     }
