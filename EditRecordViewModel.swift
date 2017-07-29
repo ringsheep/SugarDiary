@@ -13,6 +13,26 @@ class EditRecordViewModel {
         self.record = record
     }
     
+    func recordDate() -> Date {
+        return record.date
+    }
+    
+    func recordSugarLevelString() -> String? {
+        if record.sugarLevel == 0.0 {
+            return nil
+        } else {
+            return "\(record.sugarLevel)"
+        }
+    }
+    
+    func recordMedicationAmountString() -> String? {
+        if record.medicationAmount == 0.0 {
+            return nil
+        } else {
+            return "\(record.medicationAmount)"
+        }
+    }
+    
     func setDate(date: Date) {
         record.date = date
     }

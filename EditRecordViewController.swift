@@ -8,7 +8,7 @@ import UIKit
 class EditRecordViewController: UIViewController {
     
     fileprivate let defaultSpacing: CGFloat = 12.0
-    fileprivate var viewModel = EditRecordViewModel()
+    fileprivate var viewModel: EditRecordViewModel
     
     fileprivate lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
@@ -45,11 +45,31 @@ class EditRecordViewController: UIViewController {
         return stackView
     }()
     
+    // MARK: Lifecycle
+    
+    init(_ viewModel: EditRecordViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        setupData()
         setupNavbar()
         setupStackView()
+    }
+    
+    // MARK: - Views Setup
+    
+    func setupData() {
+        datePicker.date = viewModel.recordDate()
+        sugarLevelTextField.text = viewModel.recordSugarLevelString()
+        medicationAmountTextField.text = viewModel.recordMedicationAmountString()
     }
     
     func setupNavbar() {
@@ -67,6 +87,8 @@ class EditRecordViewController: UIViewController {
         stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -defaultSpacing).isActive = true
         stackView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
     }
+    
+    // MARK: Form actions
     
     func save() {
         viewModel.saveChanges()

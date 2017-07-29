@@ -47,12 +47,9 @@ class RecordsListViewController: UIViewController {
     }
     
     func createRecord() {
-        let recordNavigationController = UINavigationController(rootViewController: EditRecordViewController())
-        navigationController?.present(recordNavigationController,
-                                      animated: true,
-                                      completion: { [weak self] in
-                                        guard let strongSelf = self else { return }
-                                        strongSelf.reloadData()
+        viewModel.createRecord(on: self, with: { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.reloadData()
         })
     }
 }
@@ -78,6 +75,10 @@ extension RecordsListViewController: UITableViewDataSource {
 extension RecordsListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        createRecord()
+        
+        viewModel.editRecord(at: indexPath.row, on: self, with: { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.reloadData()
+        })
     }
 }

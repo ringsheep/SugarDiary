@@ -45,4 +45,26 @@ class RecordsListViewModel {
         return records[index]
     }
     
+    // MARK: - Routing
+    
+    func editRecord(at index: Int, on viewController: UIViewController, with completion: (() -> Void)?) {
+        openRecord(with: record(at: index), on: viewController, with: completion)
+    }
+    
+    func createRecord(on viewController: UIViewController,
+                      with completion: (() -> Void)?) {
+        openRecord(with: DiaryRecord(), on: viewController, with: completion)
+    }
+    
+    func openRecord(with record: DiaryRecord,
+                    on viewController: UIViewController,
+                    with completion: (() -> Void)?) {
+        let editRecordViewModel = EditRecordViewModel(record: record)
+        let editRecordViewController = EditRecordViewController(editRecordViewModel)
+        let recordNavigationController = UINavigationController(rootViewController: editRecordViewController)
+        viewController.navigationController?.present(recordNavigationController,
+                                                     animated: true,
+                                                     completion: completion)
+    }
+    
 }
